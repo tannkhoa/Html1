@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Đề luyện tập Carbohydrate</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f5f7fb;margin:0;color:#1f2937}
+.wrap{max-width:980px;margin:auto;padding:24px}
+.card{background:white;border-radius:14px;padding:22px;margin:16px 0;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+h1{margin:0 0 8px;font-size:28px}
+h2{margin-top:28px}
+label.opt{display:block;padding:10px 12px;border:1px solid #dbe1ea;border-radius:9px;margin:8px 0;cursor:pointer}
+label.opt:hover{background:#f8fafc}
+input[type=text]{width:100%;box-sizing:border-box;padding:10px;border:1px solid #cbd5e1;border-radius:8px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{padding:12px 18px;border:none;border-radius:10px;cursor:pointer;font-weight:700;margin-right:8px}
+.primary{background:#2563eb;color:white}
+.secondary{background:#e5e7eb}
+.result{font-size:20px;font-weight:700}
+.correct{border-left:5px solid #16a34a}
+.wrong{border-left:5px solid #dc2626}
+.explain{margin-top:8px;padding:10px;background:#f8fafc;border-radius:8px;display:none}
+.small{font-size:14px;color:#6b7280}
+@media(max-width:650px){.meta{grid-template-columns:1fr}}
+@media print{button{display:none} body{background:white} .card{box-shadow:none;border:1px solid #ddd}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<h1>ĐỀ LUYỆN TẬP ONLINE – CARBOHYDRATE</h1>
+<div class="small">Hóa học THPT • 18 câu trắc nghiệm + 4 câu trả lời ngắn • Tự chấm điểm trên thiết bị</div>
+<div class="meta" style="margin-top:14px">
+<div><b>Họ và tên</b><input id="name" type="text" placeholder="Nhập họ tên"></div>
+<div><b>Lớp</b><input id="className" type="text" placeholder="Nhập lớp"></div>
+</div>
+</div>
+
+<h2>PHẦN I. TRẮC NGHIỆM</h2>
+<div id="mcq"></div>
+
+<h2>PHẦN II. TRẢ LỜI NGẮN</h2>
+<div id="shorts"></div>
+
+<div class="card">
+<button class="primary" onclick="submitQuiz()">NỘP BÀI & XEM ĐIỂM</button>
+<button class="secondary" onclick="location.reload()">LÀM LẠI</button>
+<button class="secondary" onclick="window.print()">IN KẾT QUẢ</button>
+<div id="summary" style="margin-top:16px"></div>
+</div>
+</div>
+
+<script>
+const data = {"mcqs": [{"q": "Hợp chất nào sau đây có thể phản ứng với thuốc thử Tollens tạo bạc kim loại?", "opts": ["Acetic acid", "Fructose", "Saccharose", "Ethyl alcohol"], "ans": 1, "exp": "Fructose có thể tham gia phản ứng tráng bạc trong môi trường thuốc thử Tollens."}, {"q": "Hợp chất nào sau đây thuộc loại disaccharide?", "opts": ["Saccharose", "Cellulose", "Amylose", "Glucose"], "ans": 0, "exp": "Saccharose là disaccharide."}, {"q": "Hợp chất nào sau đây không có tính chất của một polyalcohol?", "opts": ["Glucose", "Ethanol", "Saccharose", "Glycerol"], "ans": 1, "exp": "Ethanol chỉ có một nhóm –OH nên không thể hiện tính chất của polyalcohol."}, {"q": "Chất nào hòa tan được Cu(OH)₂ ở điều kiện thường tạo dung dịch phức màu xanh lam?", "opts": ["Acetone", "Cellulose", "Saccharose", "Ethyl alcohol"], "ans": 2, "exp": "Saccharose có nhiều nhóm –OH liền kề nên hòa tan Cu(OH)₂ tạo phức màu xanh lam."}, {"q": "Ở dạng mạch vòng, glucose và fructose lần lượt còn nhóm nào và điều đó dẫn đến tính chất gì?", "opts": ["–OH hemiacetal; –OH hemiketal; có thể mở vòng", "–OH hemiketal; –OH hemiacetal; không thể thủy phân", "–OH hemiketal; –OH hemiacetal; có thể mở vòng", "–OH hemiacetal; –OH hemiketal; có thể thủy phân"], "ans": 0, "exp": "Glucose có –OH hemiacetal, fructose có –OH hemiketal; dạng vòng có thể mở thành dạng mạch hở."}, {"q": "Lên men glucose hoặc fructose bằng nấm men tạo ethanol. Xét các phát biểu: (1) Khí tạo ra làm đục nước vôi trong do CaCO₃; (2) Ethanol ở thể khí phản ứng với nước vôi trong tạo kết tủa; (3) Sản phẩm hữu cơ ethanol có thể tham gia phản ứng tạo iodoform; (4) Thay glucose bằng fructose vẫn có hiện tượng tương tự. Các phát biểu đúng là", "opts": ["(1), (2)", "(1), (3), (4)", "(1), (4)", "(2), (3), (4)"], "ans": 1, "exp": "CO₂ làm đục nước vôi trong; ethanol không tạo kết tủa với nước vôi trong; cả glucose và fructose đều có thể lên men."}, {"q": "Carbohydrate trong phạm vi bài học gồm chủ yếu các nguyên tố nào?", "opts": ["C, H, O, N", "C, H, O", "C, H, O, S", "C, H, O, P"], "ans": 1, "exp": "Carbohydrate gồm chủ yếu C, H và O."}, {"q": "Cho các phát biểu: (a) Glucose và fructose là monosaccharide; (b) Glucose có trong một số loại trái cây sấy khô; (c) Fructose không làm mất màu nước bromine như glucose; (d) Người mắc bệnh đái tháo đường là do cơ thể không dung nạp fructose. Số phát biểu đúng là", "opts": ["1", "3", "4", "2"], "ans": 1, "exp": "(a), (b), (c) đúng; (d) sai. Có 3 phát biểu đúng."}, {"q": "Cho các phát biểu: (a) Tinh bột trong gạo nếp chứa nhiều amylopectin hơn gạo tẻ; (b) Amylose không phân nhánh do chỉ có liên kết α-1,4-glycoside; (c) Liên kết α-1,6-glycoside tạo nhánh trong amylopectin; (d) Amylose và amylopectin đều có thể bị thủy phân. Số phát biểu đúng là", "opts": ["1", "4", "3", "2"], "ans": 1, "exp": "Cả bốn phát biểu đều đúng."}, {"q": "Cellulose được tạo bởi nhiều đơn vị nào?", "opts": ["α-Glucose", "β-Glucose", "Saccharose", "β-Fructose"], "ans": 1, "exp": "Cellulose được tạo bởi nhiều gốc β-glucose."}, {"q": "Dùng thuốc thử Tollens, đun nóng, có thể phân biệt được cặp chất nào?", "opts": ["Glucose và maltose", "Glucose và glycerol", "Saccharose và glycerol", "Glucose và fructose"], "ans": 1, "exp": "Glucose phản ứng với Tollens, glycerol không."}, {"q": "Một dung dịch hòa tan Cu(OH)₂ tạo phức xanh lam, bị thủy phân khi có acid hoặc enzyme nhưng không khử được Tollens và Cu(OH)₂ khi đun nóng. Dung dịch đó là", "opts": ["Tinh bột", "Fructose", "Saccharose", "Glucose"], "ans": 2, "exp": "Saccharose có nhiều nhóm –OH, bị thủy phân nhưng là đường không khử."}, {"q": "Chất nào sau đây khi thủy phân hoàn toàn trong môi trường acid chỉ tạo glucose?", "opts": ["Maltose", "Saccharose", "Fructose", "Glycerol"], "ans": 0, "exp": "Maltose thủy phân hoàn toàn chỉ tạo glucose."}, {"q": "Phát biểu nào sau đây đúng?", "opts": ["Hydrogen hóa hoàn toàn glucose tạo gluconic acid", "Cellulose được cấu tạo từ các gốc α-glucose", "Thủy phân tinh bột trong môi trường acid tạo fructose", "Saccharose bị hóa đen khi tác dụng với H₂SO₄ đặc"], "ans": 3, "exp": "Saccharose bị H₂SO₄ đặc làm mất nước và hóa đen."}, {"q": "Trong các phát biểu sau, phát biểu nào phù hợp với ứng dụng của saccharose?", "opts": ["Saccharose được dùng trong công nghiệp dược phẩm để pha chế thuốc", "Saccharose dùng để tạo phản ứng tráng bạc", "Saccharose không bị thủy phân", "Saccharose cấu tạo từ các gốc β-glucose"], "ans": 0, "exp": "Saccharose được dùng trong công nghiệp dược phẩm để pha chế thuốc."}, {"q": "Cho dãy: saccharose, glucose, cellulose, fructose. Có bao nhiêu chất có thể tham gia phản ứng tráng bạc?", "opts": ["1", "3", "4", "2"], "ans": 3, "exp": "Glucose và fructose tham gia phản ứng tráng bạc; có 2 chất."}, {"q": "Nguyên nhân chính làm amylopectin có cấu trúc phân nhánh là sự xuất hiện của", "opts": ["chỉ liên kết α-1,4-glycoside", "liên kết α-1,6-glycoside ngoài α-1,4-glycoside", "liên kết β-1,4-glycoside", "liên kết giữa các phân tử fructose"], "ans": 1, "exp": "Liên kết α-1,6-glycoside tạo các điểm phân nhánh trong amylopectin."}, {"q": "Xét saccharose, tinh bột và cellulose. Nhận xét nào đúng?", "opts": ["Cả ba đều có thể bị thủy phân", "Cả ba đều tham gia phản ứng tráng bạc", "Cả ba đều được cấu tạo từ β-glucose", "Cả ba đều không phản ứng với acid"], "ans": 0, "exp": "Saccharose, tinh bột và cellulose đều có thể bị thủy phân trong điều kiện thích hợp."}], "shorts": [{"q": "Từ 15 kg gạo nếp chứa 75% tinh bột, sản xuất cồn 96° bằng phương pháp lên men. Hiệu suất toàn quá trình 40%, khối lượng riêng ethanol nguyên chất 0,789 g/mL. Tính thể tích cồn 96°, làm tròn đến 0,1 L.", "answers": ["3.4", "3,4", "3.4 l", "3,4 l", "3.4l", "3,4l"], "exp": "m(tinh bột)=11,25 kg; 162 g đơn vị tinh bột → 92 g ethanol; hiệu suất 40%; đổi theo D=0,789 g/mL và cồn 96° ⇒ khoảng 3,4 L."}, {"q": "Trong bảo quản thực phẩm bằng muối hoặc saccharose, xét: (1) tác dụng dựa trên thẩm thấu; (2) làm thực phẩm và vi sinh vật mất nước; (3) NaCl và saccharose đều là hợp chất ion; (4) glucose bảo quản kém hơn saccharose vì dễ bị oxi hóa hơn. Liệt kê các phát biểu đúng theo thứ tự tăng dần.", "answers": ["12", "1,2", "1 2", "1;2"], "exp": "Đúng: (1), (2)."}, {"q": "Trong các chất glycerol, fructose, saccharose, maltose, tinh bột, cellulose, có bao nhiêu chất khi thủy phân hoàn toàn trong acid chỉ tạo glucose?", "answers": ["3"], "exp": "Maltose, tinh bột và cellulose."}, {"q": "Xét: (1) Oxi hóa glucose bằng Tollens thu sản phẩm cuối cùng là gluconic acid; (2) saccharose hòa tan Cu(OH)₂ ở điều kiện thường; (3) amylopectin chỉ có liên kết α-1,4; (4) glucose và fructose chuyển hóa lẫn nhau trong môi trường kiềm; (5) glucose có công thức C₆(H₂O)₆. Liệt kê phát biểu đúng theo thứ tự tăng dần.", "answers": ["245", "2,4,5", "2 4 5", "2;4;5"], "exp": "Theo đáp án chuẩn hóa của đề: (2), (4), (5)."}]};
+const letters = ["A","B","C","D"];
+
+function esc(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+const mcqDiv = document.getElementById("mcq");
+data.mcqs.forEach((q,i)=>{
+  const d=document.createElement("div"); d.className="card"; d.id="q"+i;
+  d.innerHTML=`<b>Câu ${i+1}.</b> ${esc(q.q)}`+
+  q.opts.map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}"> <b>${letters[j]}.</b> ${esc(o)}</label>`).join("")+
+  `<div class="explain" id="e${i}"></div>`;
+  mcqDiv.appendChild(d);
+});
+
+const shortDiv=document.getElementById("shorts");
+data.shorts.forEach((q,i)=>{
+  const d=document.createElement("div"); d.className="card"; d.id="s"+i;
+  d.innerHTML=`<b>Câu ${i+1}.</b> ${esc(q.q)}<div style="margin-top:10px"><input type="text" id="sa${i}" placeholder="Nhập đáp án"></div><div class="explain" id="se${i}"></div>`;
+  shortDiv.appendChild(d);
+});
+
+function norm(s){
+ return (s||"").toLowerCase().trim().replace(/\s+/g," ").replace(/lít/g,"l");
+}
+
+function submitQuiz(){
+  let mcqCorrect=0, shortCorrect=0;
+  data.mcqs.forEach((q,i)=>{
+    const card=document.getElementById("q"+i);
+    const sel=document.querySelector(`input[name=q${i}]:checked`);
+    const ok=sel && Number(sel.value)===q.ans;
+    if(ok) mcqCorrect++;
+    card.classList.remove("correct","wrong"); card.classList.add(ok?"correct":"wrong");
+    const e=document.getElementById("e"+i); e.style.display="block";
+    e.innerHTML=`<b>${ok?"Đúng":"Chưa đúng"}.</b> Đáp án: <b>${letters[q.ans]}</b>. ${esc(q.exp)}`;
+  });
+  data.shorts.forEach((q,i)=>{
+    const card=document.getElementById("s"+i);
+    const v=norm(document.getElementById("sa"+i).value);
+    const ok=q.answers.map(norm).includes(v);
+    if(ok) shortCorrect++;
+    card.classList.remove("correct","wrong"); card.classList.add(ok?"correct":"wrong");
+    const e=document.getElementById("se"+i); e.style.display="block";
+    e.innerHTML=`<b>${ok?"Đúng":"Chưa đúng"}.</b> Đáp án chấp nhận: <b>${esc(q.answers[0])}</b>. ${esc(q.exp)}`;
+  });
+  const score = mcqCorrect*0.4 + shortCorrect*0.7;
+  const finalScore = Math.round(score*10)/10;
+  const name=document.getElementById("name").value.trim()||"(chưa nhập)";
+  const cls=document.getElementById("className").value.trim()||"(chưa nhập)";
+  document.getElementById("summary").innerHTML=
+    `<div class="result">KẾT QUẢ: ${finalScore.toFixed(1)} / 10</div>
+     <div>Họ tên: <b>${esc(name)}</b> • Lớp: <b>${esc(cls)}</b></div>
+     <div>Phần I: ${mcqCorrect}/18 đúng • Phần II: ${shortCorrect}/4 đúng</div>
+     <div class="small" style="margin-top:6px">Điểm được tính: 0,4 điểm/câu trắc nghiệm và 0,7 điểm/câu trả lời ngắn.</div>`;
+  window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+}
+</script>
+</body>
+  </html>
+  
